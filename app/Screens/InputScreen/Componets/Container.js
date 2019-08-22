@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Image,
 } from 'react-native';
 
 const MyContainer = props => {
@@ -32,9 +33,20 @@ const MyContainer = props => {
               <View style={myStyle.listView}>
                 <Text style={myStyle.listItemStyle}>{item}</Text>
                 <TouchableOpacity
+                  style={myStyle.updateButton}
+                  onPress={() => props.myUpdateButton(item)}>
+                  <Text style={myStyle.updateButtonText}>Update</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
                   style={myStyle.deleteButton}
                   onPress={() => props.myDeleteButton(item)}>
-                  <Text style={myStyle.deleteButtonText}>DELETE</Text>
+                  <Image
+                    style={myStyle.deleteButtonImage}
+                    source={{
+                      uri:
+                        'http://sttwm.files.wordpress.com/2014/04/delete-300x300.jpg',
+                    }}
+                  />
                 </TouchableOpacity>
               </View>
             );
@@ -103,18 +115,32 @@ const myStyle = StyleSheet.create({
     fontFamily: 'Times New Roman',
     fontSize: 30,
     fontWeight: '500',
-    width: '70%',
+    width: '60%',
   },
   deleteButton: {
-    backgroundColor: 'orange',
+    backgroundColor: 'lightseagreen',
     borderRadius: 35,
-    width: '30%',
+    width: '12%',
     justifyContent: 'center',
     alignItems: 'center',
+    height: 30,
   },
-  deleteButtonText: {
-    color: 'black',
-    fontSize: 25,
+  deleteButtonImage: {
+    height: 35,
+    width: 35,
+    borderRadius: 35,
+  },
+  updateButton: {
+    width: '25%',
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    backgroundColor: 'yellow'
+  },
+  updateButtonText: {
+    fontSize: 27,
+    fontWeight: '600',
   },
 });
 
