@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Alert} from 'react-native';
 import {MyContainer} from './Componets/Container';
-//import console = require('console');
 
 var globalIndexVariable;
 
@@ -74,7 +73,6 @@ export default class To_Do_List extends Component {
         myAddButton={() => this.addButtonAction(this.state.addActionValue)}
         data={this.state.toDoList}
         extraData={this.state}
-        keyExtractor={(item, index) => index}
         myDeleteButton={item => this.deleteButtonPressed(item)}
         myUpdateButton={item => this.updateButtonPressed(item)}
       />
