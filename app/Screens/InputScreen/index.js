@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {Alert} from 'react-native';
 import {MyContainer} from './Componets/Container';
+import {connect} from 'react-redux';
 
 var globalIndexVariable;
 
-export default class To_Do_List extends Component {
+class To_Do_List extends Component {
   constructor(props) {
     super(props);
     this.state = {
       textInputValue: '',
-      toDoList: [],
       addActionValue: '',
     };
   }
@@ -19,37 +19,30 @@ export default class To_Do_List extends Component {
       textInputValue: updatingThisElement,
       addActionValue: updatingThisElement,
     });
-    var myList = this.state.toDoList;
+    var myList = this.props.toDoList;
     var index = myList.indexOf(updatingThisElement);
     globalIndexVariable = index;
   };
 
   deleteButtonPressed = selectedElement => {
-    var myList = this.state.toDoList;
-    var index = myList.indexOf(selectedElement);
-    myList.splice(index, 1);
-    this.setState({
-      toDoList: myList,
-    });
+    this.props.deleteButtonPressedReducer(selectedElement);
   };
 
   addButtonAction = textFieldValue => {
-    var myList = this.state.toDoList;
+    var myList = this.props.toDoList;
     if (textFieldValue === '') {
       if (this.state.textInputValue === '') {
         Alert.alert('Please Enter a Task');
       } else {
         var newTask = this.state.textInputValue;
-        myList.push(newTask);
+        this.props.addButtonActionReducer(newTask);
         this.setState({
-          toDoList: myList,
           textInputValue: '',
         });
       }
     } else if (textFieldValue !== '') {
       myList[globalIndexVariable] = this.state.textInputValue;
       this.setState({
-        toDoList: myList,
         textInputValue: '',
         addActionValue: '',
       });
@@ -71,7 +64,7 @@ export default class To_Do_List extends Component {
         myValue={this.state.textInputValue}
         onChangeText={value => this.onChangeTextFunction(value)}
         myAddButton={() => this.addButtonAction(this.state.addActionValue)}
-        data={this.state.toDoList}
+        data={this.props.toDoList}
         extraData={this.state}
         myDeleteButton={item => this.deleteButtonPressed(item)}
         myUpdateButton={item => this.updateButtonPressed(item)}
@@ -79,3 +72,31 @@ export default class To_Do_List extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addButtonActionReducer(value) {
+      dispatch({
+        type: 'ADD_BUTTON_ACTION',
+        value,
+      });
+    },
+    deleteButtonPressedReducer(value) {
+      dispatch({
+        type: 'DELETE_BUTTON_PRESSED',
+        value,
+      });
+    },
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+    toDoList: state.toDoList,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(To_Do_List);

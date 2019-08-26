@@ -9,6 +9,7 @@ const FlatListView = props => {
         data={props.data}
         extraData={props.extraData}
         renderItem={({item, index}) => {
+          console.log(item)
           return (
             <RowContainerForFlatList
               onPressUpdate={() => props.onPressUpdate(item)}
