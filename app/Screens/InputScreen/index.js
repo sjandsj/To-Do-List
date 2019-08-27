@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Alert} from 'react-native';
 import {MyContainer} from './Componets/Container';
 import {connect} from 'react-redux';
+import {addElement} from '../../actions/arrayValue';
+import {removeElement} from '../../actions/arrayValue';
 
 var globalIndexVariable;
 
@@ -25,7 +27,7 @@ class To_Do_List extends Component {
   };
 
   deleteButtonPressed = selectedElement => {
-    this.props.deleteButtonPressedReducer(selectedElement);
+    this.props.removeElement(selectedElement);
   };
 
   addButtonAction = textFieldValue => {
@@ -35,7 +37,7 @@ class To_Do_List extends Component {
         Alert.alert('Please Enter a Task');
       } else {
         var newTask = this.state.textInputValue;
-        this.props.addButtonActionReducer(newTask);
+        this.props.addElement(newTask);
         this.setState({
           textInputValue: '',
         });
@@ -75,13 +77,13 @@ class To_Do_List extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addButtonActionReducer(value) {
+    addElement(value) {
       dispatch({
         type: 'ADD_BUTTON_ACTION',
         value,
       });
     },
-    deleteButtonPressedReducer(value) {
+    removeElement(value) {
       dispatch({
         type: 'DELETE_BUTTON_PRESSED',
         value,
@@ -92,7 +94,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    toDoList: state.toDoList,
+    toDoList: state.todoReducer.toDoList,
   };
 }
 
